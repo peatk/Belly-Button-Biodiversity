@@ -12,30 +12,39 @@ d3.json(bellyURL).then(function(data) {
     // console.log('these are the sample values:');
     // console.log(all_samps);
     
-    let all_samps = data.samples[0].sample_values.slice(0,10);
+    let all_samps = data.samples[0].sample_values.slice(0,10).sort((a, b) => a - b);
     console.log('these are the sample values:');
     console.log(all_samps);
 
 
     let otu_id = data.samples[0].otu_ids.slice(0,10);
+    let id = otu_id.map(id => `OTU ${id}`);
     console.log('these are the otu ids values:');
-    console.log(otu_id)
+    console.log(id);
 
     let otu_label = data.samples[0].otu_labels.slice(0,10);
     console.log('these are the otu labels:');
-    console.log(otu_label)
+    console.log(otu_label);
 
     let trace1 = {
-        x: otu_id.map(x => x),
-        y: all_samps.map( x => x),
-        type: 'bar'
+        y: id.map(x => x),
+        x: all_samps.map( x => x),
+        type: 'bar',
+        orientation: 'h'
+    
     };
 
     let data1 = [trace1]
     let layout = {
-        title: 'test'
+        title: 'test',
+        margin: {
+            l: 100,
+            r: 100,
+            t: 100,
+            b: 100
+        }
     };
-    Plotly.newPlot('plot', data1, layout);
+    Plotly.newPlot('bar', data1, layout);
 
     // // On change to the DOM, call getData()
     // d3.selectAll("#selDataset").on("change", getData);
