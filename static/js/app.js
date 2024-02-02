@@ -1,7 +1,9 @@
-const bellyURL = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json";
+let bellyURL = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json";
+
+let data;
 
 // have the plot update based on the selected id (dataset)
-function updatePlotly() {
+function updatePlotly(data) {
     let dropdownMenu = d3.select('#selDataset');
     
     // value assigning for the dropdown menu to the dataset variable
@@ -72,10 +74,9 @@ d3.json(bellyURL).then(function(data) {
 });
 
 // Set up event listener for changes in the dropdown menu
-d3.selectAll("#selDataset").on("change", updatePlotly);
-
-
-
+d3.selectAll("#selDataset").on("change", function () {
+    updatePlotly(data);
+});   
 
 
 
