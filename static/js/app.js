@@ -1,26 +1,40 @@
 let bellyURL = "https://2u-data-curriculum-team.s3.amazonaws.com/dataviz-classroom/v1.1/14-Interactive-Web-Visualizations/02-Homework/samples.json";
 
-let data;
+// let data;
 
 // have the plot update based on the selected id (dataset)
-function updatePlotly(data) {
-    let dropdownMenu = d3.select('#selDataset');
-    
-    // value assigning for the dropdown menu to the dataset variable
-    let dataset = dropdownMenu.property('value');
-    let selected = data.samples.find(x => x.id === dataset);
+function updateCharts(data, id) {
+    // let dropdownMenu = d3.select('#selDataset');
+    console.log(data);
+    // // value assigning for the dropdown menu to the dataset variable
+    // let dataset = dropdownMenu.property('value');
+    let selected = data.samples.find(set => set.id == id);
 
     let selectedSampleValues = selected.sample_values.slice(0,10).sort((a, b) => a-b);
-    let selectedOtuId = selected.out_ids.slice(0,10);
+    console.log(selectedSampleValues);
+    let selectedOtuId = selected.otu_ids.slice(0,10);
+
+    let selectedOtuIdLabel = selectedOtuId.map(id => `OTU ${id}`);
+    console.log(selectedOtuIdLabel);
     // let selectedOtuLabel = selected.otu_labels.slice(0,10);
 
-    let update = {
-        x: selectedSampleValues,
-        y: selectedOtuId,
-    };
+    // let update = {
+        // x: [selectedSampleValues],
+        // y: [selectedOtuIdLabel],
+    // };
+    // Plotly.restyle('bar', update);
 
-    Plotly.restyle('bar', update);
+    
+    Plotly.restyle('bar', 'x', [selectedSampleValues]);
+    Plotly.restyle('bar', 'y', [selectedOtuIdLabel]);
+
+    Plotly.restyle('bubble', 'x', [selectedSampleValues]);
+    Plotly.restyle('bubble', 'y', [selectedOtuIdLabel]);
 };
+
+// function updateDemo(data, id) {
+
+// }
 
 // Load data 
 d3.json(bellyURL).then(function(data) {
@@ -30,31 +44,20 @@ d3.json(bellyURL).then(function(data) {
         dropdownMenu.append('option').text(x.id).property('value', x.id);
     });    
     
-    // let meta = data.metadata;
-    // console.log('this is the metadata:');
-    // console.log(meta);
-    
-    // let all_samps = data.samples[0].sample_values;
-    // console.log('these are the sample values:');
-    // console.log(all_samps);
-    
-    let all_samps = data.samples[0].sample_values.slice(0,10).sort((a, b) => a - b);
-    // console.log('these are the sample values:');
-    // console.log(all_samps);
-
+    let all_samps = data.samples[0] .sample_values.slice(0,10).sort((a, b) => a - b);
+    console.log(all_samps);
 
     let otu_id = data.samples[0].otu_ids.slice(0,10);
     let id = otu_id.map(id => `OTU ${id}`);
-    // console.log('these are the otu ids values:');
-    // console.log(id);
+    console.log(id);
 
     let otu_label = data.samples[0].otu_labels.slice(0,10);
     console.log('these are the otu labels:');
     console.log(otu_label);
 
     let trace1 = {
-        y: id.map(x => x),
-        x: all_samps.map( x => x),
+        y: id,
+        x: all_samps,
         type: 'bar',
         orientation: 'h'
     
@@ -71,38 +74,15 @@ d3.json(bellyURL).then(function(data) {
         }
     };
     Plotly.newPlot('bar', data1, layout1);
+    // Set up event listener for changes in the dropdown menu
+    d3.selectAll("#selDataset").on("change", function (event) {
+        console.log('selectChangeEvent', event);
+        const selectedID = event.target.value;
+        updateCharts(data, selectedID);
+        // updatedemo
 });
 
-// Set up event listener for changes in the dropdown menu
-d3.selectAll("#selDataset").on("change", function () {
-    updatePlotly(data);
-});   
 
-
-
-// function initBubbleChart() {
-//     let trace2 = {
-//         y: all_samps.map(x => x),
-//         x: id.map( x => x),
-//         type: 'bubble',
-//         // orientation: 'h'
-    
-//     };
-
-//     let data2 = [trace2]
-//     let layout2 = {
-//         title: 'test',
-//         margin: {
-//             l: 100,
-//             r: 100,
-//             t: 100,
-//             b: 100
-//         }
-//     };
-//     Plotly.newPlot('bubble', data2, layout2);
-// };
-// initBubbleChart();
-
-
+});  
 
 
