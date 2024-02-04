@@ -28,8 +28,8 @@ function updateCharts(data, id) {
     Plotly.restyle('bar', 'x', [selectedSampleValues]);
     Plotly.restyle('bar', 'y', [selectedOtuIdLabel]);
 
-    Plotly.restyle('bubble', 'x', [selectedSampleValues]);
-    Plotly.restyle('bubble', 'y', [selectedOtuIdLabel]);
+    // Plotly.restyle('bubble', 'x', [selectedSampleValues]);
+    // Plotly.restyle('bubble', 'y', [selectedOtuIdLabel]);
 };
 
 // function updateDemo(data, id) {
@@ -44,7 +44,7 @@ d3.json(bellyURL).then(function(data) {
         dropdownMenu.append('option').text(x.id).property('value', x.id);
     });    
     
-    let all_samps = data.samples[0] .sample_values.slice(0,10).sort((a, b) => a - b);
+    let all_samps = data.samples[0].sample_values.slice(0,10).sort((a, b) => a - b);
     console.log(all_samps);
 
     let otu_id = data.samples[0].otu_ids.slice(0,10);
@@ -65,7 +65,7 @@ d3.json(bellyURL).then(function(data) {
 
     let data1 = [trace1]
     let layout1 = {
-        title: 'test',
+        title: 'bar',
         margin: {
             l: 100,
             r: 100,
@@ -73,16 +73,53 @@ d3.json(bellyURL).then(function(data) {
             b: 100
         }
     };
+    // let bubbleId = firstSample.otu_ids;
+    // let bubbleLabel = firstSample.otu_labels;
+    // // let bubbleValue = firstSample.sample_values;
+    // console.log('this is the bubble data');
+    // console.log(bubbleId);
+    // console.log(bubbleLabel);
+
+    // let bubbleTrace = [{
+    //     x: 
+    //     y: 
+    //     text: 
+    //     mode: 'markers',
+    //     type: 'bubble',
+    //     marker: {
+    //         size: ,
+    //         color: ,
+    //         colorscale: 'turbo'
+    //     }
+    //     // orientation: 'h'
+    
+    // }];
+    
+    // let bubbleData = []
+    // let bubbleLayout = {
+    //     title: 'bubble',
+    //     showlegend: false,
+    //     // xaxis: {title: `OTU ID`, automargin: true},
+    //     // yaxis: {automargin: true},
+    //     // hovermode: 'closest'
+    //     margin: {
+    //         l: 100,
+    //         r: 100,
+    //         t: 100,
+    //         b: 100
+    //     }
+    // };
+
     Plotly.newPlot('bar', data1, layout1);
-    // Set up event listener for changes in the dropdown menu
-    d3.selectAll("#selDataset").on("change", function (event) {
-        console.log('selectChangeEvent', event);
-        const selectedID = event.target.value;
-        updateCharts(data, selectedID);
-        // updatedemo
+    // Plotly.newPlot('bubble', bubbleData, bubbleLayout);
+        // Set up event listener for changes in the dropdown menu
+        d3.selectAll("#selDataset").on("change", function (event) {
+            console.log('selectChangeEvent', event);
+            const selectedID = event.target.value;
+            updateCharts(data, selectedID);
+            // updatedemo
+
 });
 
 
 });  
-
-
