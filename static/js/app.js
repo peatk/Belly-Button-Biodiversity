@@ -44,6 +44,7 @@ d3.json(bellyURL).then(function(data) {
         dropdownMenu.append('option').text(x.id).property('value', x.id);
     });    
     
+    // change the variables so that i am not drilling down on the data too early
     let all_samps = data.samples[0].sample_values.slice(0,10).sort((a, b) => a - b);
     console.log(all_samps);
 
