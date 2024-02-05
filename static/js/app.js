@@ -39,7 +39,6 @@ function updateDemo(data, id) {
 
 // Load data 
 d3.json(bellyURL).then(function(data) {
-// d3.json('samples.json').then(function(data) {
     let dropdownMenu = d3.select('#selDataset');
     data.samples.forEach(x => {
         dropdownMenu.append('option').text(x.id).property('value', x.id);
@@ -57,9 +56,9 @@ d3.json(bellyURL).then(function(data) {
     let otuSliced = dataSamples[0].otu_ids.slice(0,10);
     let otuId = otuSliced.map(id => `OTU ${id}`);
 
-
-    let otuLabelall = dataSamples[0].otu_labels;
-    let otuLabelsliced = dataSamples[0].otu_labels.slice(0,10);
+// did not end up using this info
+    // let otuLabelall = dataSamples[0].otu_labels;
+    // let otuLabelsliced = dataSamples[0].otu_labels.slice(0,10);
 
     // Bar chart data / trace
     let barCharttrace = {
@@ -70,7 +69,7 @@ d3.json(bellyURL).then(function(data) {
     };
     let barChartdata = [barCharttrace]
     let barChartlayout = {
-        title: 'bar',
+        title: 'Top 10 Bacteria Per Subject',
         margin: {
             l: 75,
             r: 10,
@@ -86,27 +85,32 @@ d3.json(bellyURL).then(function(data) {
         mode: 'markers',
         marker: {
             size: sampleValues,
-            color: otuAll,
-            // colorscale: 'plasma'
-            // colorscale: 'yellow'
+            // color: 'otuAll',
+            color: 'turbo',
+            // colorscale: 'turbo',
+            cmin: Math.min(...otuAll),
+            cmax: Math.max(...otuAll)
         }
     }];
     let bubbleChartlayout = {
-        title: 'bubble test',
+        title: 'Bacteria Per Sample',
         showlegend: false,
         height: 500,
         width: 1250,
-        xaxis: {title: 'x axis'},
-        yaxis: {title: 'y axis'}
+        xaxis: {title: 'OTU ID'},
+        yaxis: {title: 'Sample Values'}
     };
     // initial plotly load so data is existing when site is loaded
     Plotly.newPlot('bar', barChartdata, barChartlayout);
     Plotly.newPlot('bubble', bubbleChartdata, bubbleChartlayout);
+
+    const initalDemo = data.metadata[0].id;
+    updateDemo(data, initalDemo);
        
     // event listener for changes in the dropdown menu
-        d3.selectAll("#selDataset").on("change", function (event) {
-            const selectedID = event.target.value;
-            updateCharts(data, selectedID);
+    d3.selectAll("#selDataset").on("change", function (event) {
+        const selectedID = event.target.value;
+        updateCharts(data, selectedID);
         // updateCharts(data, data.metadata[0].id);
 
 });
