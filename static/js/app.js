@@ -65,7 +65,10 @@ d3.json(bellyURL).then(function(data) {
         y: otuId,
         x: sampleValuessorted,
         type: 'bar',
-        orientation: 'h'
+        orientation: 'h',
+        marker: {
+            color: '#94d2bd'
+        }
     };
     let barChartdata = [barCharttrace]
     let barChartlayout = {
@@ -85,11 +88,11 @@ d3.json(bellyURL).then(function(data) {
         mode: 'markers',
         marker: {
             size: sampleValues,
-            // color: 'otuAll',
-            color: 'turbo',
+            color: otuAll,
+            colorscale: 'Bluered',
             // colorscale: 'turbo',
-            cmin: Math.min(...otuAll),
-            cmax: Math.max(...otuAll)
+            // cmin: Math.min(...otuAll),
+            // cmax: Math.max(...otuAll)
         }
     }];
     let bubbleChartlayout = {
