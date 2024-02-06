@@ -7,5 +7,11 @@ The dataset reveals that a small handful of microbial species (also called opera
 
 Using the dashboard you can sift through all the json data and view the demographic information, top 10 bacteria strains, and bacteria per sample. 
 
-### Demographic Information
+#### Demographic Information
 ![Alt Text](https://github.com/peatk/Belly-Button-Biodiversity/blob/main/static/demo-info.png)
+
+#### Top 10 Bacteria
+![Alt Text](https://github.com/peatk/Belly-Button-Biodiversity/blob/main/static/top10bacteria.png)
+
+#### Bacteria Per Sample
+![Alt Text](https://github.com/peatk/Belly-Button-Biodiversity/blob/main/static/bacteria-per-sample.png)
